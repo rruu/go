@@ -8,34 +8,23 @@ import (
 
 )
 
-var urls []string
+//var urls []string
 
-func doGet(url string) {
-	addr,err := net.LookupIP(url)
-   if err != nil {
-      fmt.Println("Unknown host")
-   } else {
-      fmt.Println("Hostname: " + url + " IP :", addr)
-   }
-}
-
-
-func loadUrls() {
+func main(){
 	file, _ := os.Open(os.Args[1])
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
+		var urls []string
 		urls = append(urls, scanner.Text())
-	}
+		for _, url := range urls {
+        	addr,err := net.LookupIP(url)
+           if err != nil {
+              fmt.Println("Unknown host")
+           } else {
+              fmt.Println("Hostname: " + url + " IP :", addr)
+           }
+		}
 }
-
-
-func main() {
-	loadUrls()
-	for _, url := range urls {
-		doGet(url)
-	}
-	fmt.Println("Done! (╯°□°)╯︵ ┻━┻")
+fmt.Println("Done! (╯°□°)╯︵ ┻━┻")
 }
-
-
